@@ -34,8 +34,8 @@ export default function SignUp() {
 
         axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/sign_up', toServer)
             .then(r => {
-                history.push('/timeline');
                 getUserData(r.data);
+                history.push('/timeline');
             })
             .catch(() => {
                 alert('Email inserido já cadastrado');

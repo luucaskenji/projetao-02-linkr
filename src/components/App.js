@@ -4,20 +4,23 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Login from '../pages/Login';
 import Timeline from '../pages/Timeline';
 import UserDataProvider from '../contexts/UserData';
+import PostsProvider from '../contexts/PostsContext';
 
 export default function App() {
     return (
         <UserDataProvider>
-            <Router>
-                <Switch>
-                    <Route path='/' exact>
-                        <Login />
-                    </Route>
-                    <Route path='/timeline'>
-                        <Timeline />
-                    </Route>
-                </Switch>
-            </Router>
+            <PostsProvider>
+                <Router>
+                    <Switch>
+                        <Route path='/' exact>
+                            <Login />
+                        </Route>
+                        <Route path='/timeline'>
+                            <Timeline />
+                        </Route>
+                    </Switch>
+                </Router>
+            </PostsProvider>
         </UserDataProvider>
     );
 }

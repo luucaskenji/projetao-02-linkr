@@ -30,8 +30,8 @@ export default function SignIn() {
 
         axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/sign_in', {email, password})
             .then(r => {
-                history.push('/timeline');
                 getUserData(r.data);
+                history.push('/timeline');
             })
             .catch(() => {
                 alert('E-mail ou senha incorretos. Verifique e tente novamente');
