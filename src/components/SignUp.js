@@ -10,6 +10,7 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [pictureUrl, setPictureUrl] = useState('');
+    const [loading, setLoading] = useState(false);
     const { getUserData } = useContext(UserDataContext);
     const history = useHistory();
 
@@ -25,6 +26,10 @@ export default function SignUp() {
     }
 
     const createAccount = () => {
+        if (loading) return;
+
+        setLoading(true);
+
         const toServer = {email, password, username, pictureUrl};
 
         axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/sign_up', toServer)
@@ -32,7 +37,10 @@ export default function SignUp() {
                 history.push('/timeline');
                 getUserData(r.data);
             })
-            .catch(() => alert('Email inserido já cadastrado'));
+            .catch(() => {
+                alert('Email inserido já cadastrado');
+                setLoading(false);
+            });
     }
 
     return (

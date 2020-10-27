@@ -8,6 +8,7 @@ import { UserDataContext } from '../contexts/UserData';
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const { getUserData } = useContext(UserDataContext);
     const history = useHistory();
 
@@ -23,12 +24,19 @@ export default function SignIn() {
     }
 
     const toTimeline = () => {
+        if (loading) return;
+
+        setLoading(true);
+
         axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/sign_in', {email, password})
             .then(r => {
                 history.push('/timeline');
-                getUserData(r.data)
+                getUserData(r.data);
             })
-            .catch(() => alert('E-mail ou senha incorretos. Verifique e tente novamente'));
+            .catch(() => {
+                alert('E-mail ou senha incorretos. Verifique e tente novamente');
+                setLoading(false);
+            });
     }
     
     return (
