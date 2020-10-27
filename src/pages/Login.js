@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import SignIn from '../components/SignIn';
+import SignUp from '../components/SignUp';
 
 export default function Login() {
     const [haveAccount, setHaveAccount]= useState(true);
@@ -66,7 +66,7 @@ const Container = styled.div`
             color: white;
             text-decoration: underline;
             background: transparent;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Lato', sans-serif;
         }
     }
 `;
