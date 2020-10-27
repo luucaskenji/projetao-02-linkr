@@ -1,23 +1,40 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import { MainPageInput, Form, FormButton } from '../styles/MainPageElements';
+import { UserDataContext } from '../contexts/UserData';
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { getUserData } = useContext(UserDataContext);
+    const history = useHistory();
 
     const verifyInput = e => {
         e.preventDefault();
 
-        (!email || !password) && alert('Preencha todos os campos')
-        
-        return;
+        if (!email || !password) {
+            alert('Preencha todos os campos');
+            return;
+        }
+
+        toTimeline();
+    }
+
+    const toTimeline = () => {
+        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/sign_in', {email, password})
+            .then(r => {
+                history.push('/timeline');
+                getUserData(r.data)
+            })
+            .catch(() => alert('E-mail ou senha incorretos. Verifique e tente novamente'));
     }
     
     return (
         <Form onSubmit={verifyInput}>
             <MainPageInput placeholder='e-mail' onChange={e => setEmail(e.target.value)} value={email} />
-            <MainPageInput placeholder='password' onChange={e => setPassword(e.target.value)} value={password} />
+            <MainPageInput type='password' placeholder='password' onChange={e => setPassword(e.target.value)} value={password} />
             <FormButton type='submit'>Log In</FormButton>
         </Form>
     );

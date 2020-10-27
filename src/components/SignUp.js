@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 
 import { MainPageInput, Form, FormButton } from '../styles/MainPageElements';
+import { UserDataContext } from "../contexts/UserData";
 
 export default function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [pictureUrl, setPictureUrl] = useState('');
+    const { getUserData } = useContext(UserDataContext);
     const history = useHistory();
 
     const verifyInput = e => {
@@ -26,8 +28,11 @@ export default function SignUp() {
         const toServer = {email, password, username, pictureUrl};
 
         axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/sign_up', toServer)
-        .then(() => history.push('/timeline'))
-        .catch(() => alert('Email inserido já cadastrado'));
+            .then(r => {
+                history.push('/timeline');
+                getUserData(r.data);
+            })
+            .catch(() => alert('Email inserido já cadastrado'));
     }
 
     return (
