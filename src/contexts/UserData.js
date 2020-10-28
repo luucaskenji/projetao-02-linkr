@@ -6,7 +6,12 @@ export default function UserDataProvider({ children }) {
     const [userData, setUserData] = useState({});
 
     const getUserData = data => {
-        setUserData({ token: data.token, avatar: data.user.avatar, username: data.user.username });
+        const config = {
+            headers: {
+                'user-token': data.token
+            }
+        };
+        setUserData({ config, avatar: data.user.avatar, username: data.user.username });
     }
 
     return (

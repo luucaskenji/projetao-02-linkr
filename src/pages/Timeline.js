@@ -4,6 +4,9 @@ import axios from 'axios';
 
 import Header from '../components/Header';
 import Post from '../components/Post';
+import Trending from '../components/Trending';
+
+
 import { UserDataContext } from '../contexts/UserData';
 import { PostsContext } from '../contexts/PostsContext';
 
@@ -13,13 +16,7 @@ export default function Timeline() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const config = {
-            headers: {
-                'user-token': userData.token
-            }
-        };
-
-        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts?offset=0&limit=10', config)
+        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts?offset=0&limit=10', userData.config)
             .then(r => {
                 setPosts(r.data.posts);
                 setLoading(false);
@@ -59,7 +56,7 @@ export default function Timeline() {
                         </PostContainer>
     
                         <TrendingTopics>
-    
+                            <Trending />
                         </TrendingTopics>
                     </div>
                 </main>
@@ -107,6 +104,16 @@ const PostContainer = styled.div `
 
 const TrendingTopics = styled.aside`
     width: 30%;
-    height: 200px;
     background-color: #171717;
+    color: white;
+    padding: 10px;
+    border-radius: 16px;
+    height: 400px;
+
+    h3{
+        font-family: 'Oswald', sans-serif;
+        font-weight: 700;
+        font-size: 27px;
+        margin-bottom: 30px;
+    }
 `;
