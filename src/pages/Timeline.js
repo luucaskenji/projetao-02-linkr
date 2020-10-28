@@ -106,14 +106,14 @@ const TrendingTopics = styled.aside`
     width: 30%;
     background-color: #171717;
     color: white;
-    padding: 10px;
     border-radius: 16px;
-    height: 400px;
+    height: 430px;
 
     h3{
         font-family: 'Oswald', sans-serif;
         font-weight: 700;
         font-size: 27px;
-        margin-bottom: 30px;
+        padding: 20px 15px;
+        border-bottom: 1px solid #484848;
     }
 `;

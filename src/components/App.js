@@ -7,24 +7,27 @@ import Hashtag from '../pages/Hashtag';
 
 import UserDataProvider from '../contexts/UserData';
 import PostsProvider from '../contexts/PostsContext';
+import HashtagProvider from '../contexts/HashtagContext';
 
 export default function App() {
     return (
         <UserDataProvider>
             <PostsProvider>
-                <Router>
-                    <Switch>
-                        <Route path='/' exact>
-                            <Login />
-                        </Route>
-                        <Route path='/timeline'>
-                            <Timeline />
-                        </Route>
-                        <Route path='/hashtag/:hashtag'>
-                            <Hashtag />
-                        </Route>                        
-                    </Switch>
-                </Router>
+                <HashtagProvider>
+                    <Router>
+                        <Switch>
+                            <Route path='/' exact>
+                                <Login />
+                            </Route>
+                            <Route path='/timeline'>
+                                <Timeline />
+                            </Route>
+                            <Route path='/hashtag/:hashtag'>
+                                <Hashtag />
+                            </Route>                        
+                        </Switch>
+                    </Router>
+                </HashtagProvider>
             </PostsProvider>
         </UserDataProvider>
     );
