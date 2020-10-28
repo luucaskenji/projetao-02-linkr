@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 
-import { MainPageInput, Form, FormButton } from '../styles/MainPageElements';
+import { MainPageInput, Form, FormButton } from '../styles/LoginPageElements';
 import { UserDataContext } from "../contexts/UserData";
 
 export default function SignUp() {

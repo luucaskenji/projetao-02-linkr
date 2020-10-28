@@ -1,14 +1,16 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import Header from '../components/Header';
+import Post from '../components/Post';
 import { UserDataContext } from '../contexts/UserData';
 import { PostsContext } from '../contexts/PostsContext';
 
 export default function Timeline() {
     const { userData } = useContext(UserDataContext);
     const { setPosts, posts } = useContext(PostsContext);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const config = {
@@ -17,12 +19,27 @@ export default function Timeline() {
             }
         };
 
-        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts?offset=0&limit=2', config)
-            .then(r => setPosts(r.data.posts))
+        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts?offset=0&limit=10', config)
+            .then(r => {
+                setPosts(r.data.posts);
+                setLoading(false);
+            })
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
-    }, [])
+    }, []);
+
+    const checkLoading = () => {
+        if (loading) {
+            return <img src='/images/loading.svg' />
+        }
+        else if (posts.length === 0 ){
+            return 'Nenhum post encontrado';
+        }
+        else {
+            return posts.map(p => <Post key={p.id} post={p} />)
+        }
+    }
 
     return (
         <>
@@ -34,9 +51,17 @@ export default function Timeline() {
                         <h2>timeline</h2>
                     </div>
 
-                    <ul>
-
-                    </ul>
+                    <div>
+                        <PostContainer>
+                            <ul>
+                                {checkLoading()}
+                            </ul>
+                        </PostContainer>
+    
+                        <TrendingTopics>
+    
+                        </TrendingTopics>
+                    </div>
                 </main>
             </Container>
         </>
@@ -50,9 +75,13 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
 
-    div { 
-        width: 100%; 
-        text-align: left;
+    main { 
+        width: 80vw; 
+
+        & > div:last-child {
+            display: flex;
+            justify-content:space-between;
+        }
     }
 
     h2 {
@@ -61,5 +90,23 @@ const Container = styled.div`
         color: white;
         font-weight: 700;
         letter-spacing: 2px;
+        margin-bottom: 25px;
     }
+`;
+
+const PostContainer = styled.div `
+    width: 65%;
+
+    ul li { margin-bottom: 25px; }
+
+    ul > img {
+        width: 50px;
+        height: auto;
+    }    
+`;
+
+const TrendingTopics = styled.aside`
+    width: 30%;
+    height: 200px;
+    background-color: #171717;
 `;
