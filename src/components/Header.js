@@ -1,16 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+import { IoIosArrowDown } from 'react-icons/io';
 
 import { UserDataContext } from '../contexts/UserData';
 
 export default function Header () {
     const { userData } = useContext(UserDataContext);
+    const [isVisible, setIsVisible] = useState(false);
 
     return (
         <HeaderStyle>
             <span>linkr</span>
             <div>
-                <img src={userData.avatar} />
+                <IconContainer isVisible={isVisible} onClick={() => setIsVisible(!isVisible)}>
+                    <IoIosArrowDown size='25px' />
+                </IconContainer>
+
+                <Menu isVisible={isVisible}>
+                    <li>My posts</li>
+                    <li>My likes</li>
+                    <li>Logout</li>
+                </Menu>
+
+                <img onClick={() => setIsVisible(!isVisible)} src={userData.avatar} />
             </div>
         </HeaderStyle>
     );
@@ -31,13 +43,43 @@ const HeaderStyle = styled.header`
     color: white;
     font-family: 'Passion One', cursive;
 
-    div { 
+    & > div { 
         height: 100%; 
+        display: flex;
+        align-items: center;
 
         img {
             height: 100%;
             width: auto;
             border-radius: 50%;
+            margin-left: 15px;
+            cursor: pointer;
         }
     }
+`;
+
+const IconContainer = styled.div`
+    transition: all 150ms linear;
+    transform: ${props => props.isVisible ? `rotate(180deg)` : `rotate(0)`};
+    cursor: pointer;
+`;
+
+const Menu = styled.ul`
+    width: 120px;
+    height: ${props => props.isVisible ? '90px' : '0'};
+    padding: ${props => props.isVisible ? '10px 15px' : '0'};
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 72px;
+    background: #171717;
+    font-size: 18px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 150ms linear;
+    font-family: 'Lato', sans-serif;
+    border-bottom-left-radius: 20px;
 `;
