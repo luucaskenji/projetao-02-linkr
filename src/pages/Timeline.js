@@ -76,7 +76,7 @@ const Container = styled.div`
     align-items: center;
 
     main { 
-        width: 80vw; 
+        width: 75vw; 
 
         & > div:last-child {
             display: flex;

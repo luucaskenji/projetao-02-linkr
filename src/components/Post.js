@@ -58,20 +58,25 @@ const MessageContainer = styled.div`
         border: 1px solid #4D4D4D;
         border-radius: 16px;
         width: 100%;
-        height: 195px;
+        height: 155px;
         
         p {
-            line-clamp: 3;    
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
             margin-bottom: 4px;              
         }
 
-        img { 
-            height: 100%; 
+        img {
+            width: 50%;
+            object-fit: cover;
             margin-left: 6px;
             border-radius: 0 16px 16px 0;
         }
         
         div {
+            width: 50%;
             padding: 10px;
             display: flex;
             flex-direction: column;
