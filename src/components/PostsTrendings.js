@@ -3,16 +3,16 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import Post from '../components/Post';
-import Trending from '../components/Trending';
-import ToPost from '../components/ToPost';
+import Post from './Post';
+import Trending from './Trending';
+import ToPost from './ToPost';
 
 import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
-export default function PostsContext() {
+export default function PostsTrendings() {
     const { userData } = useContext(UserDataContext);
-    const { url, setPosts, posts, currenRoute } = useContext(PagesContext);
+    const { url, setPosts, posts } = useContext(PagesContext);
 
     const currentRoute = useLocation()
     
@@ -25,7 +25,7 @@ export default function PostsContext() {
                 setLoading(false);
                 setPosts(r.data.posts);                
             })
-            .catch(err => {
+            .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
     }, [url]);

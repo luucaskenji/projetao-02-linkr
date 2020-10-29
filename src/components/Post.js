@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import ReactHashtag from 'react-hashtag';
 
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function Post({ post }) {
-    const { setSelectedUser } = useContext(PagesContext);
+    const { setSelectedUser, setSelectedHashtag } = useContext(PagesContext);
+    const history = useHistory();
 
     const userIdUrl = `/user/${post.user.id}`;
 
@@ -20,7 +22,9 @@ export default function Post({ post }) {
                     <Link to={userIdUrl}>
                         <p className='username' onClick={() => setSelectedUser(post.user.id)}>{post.user.username}</p>
                     </Link>
-                    <p className='lightgray-font big'>{post.text}</p>
+                    <p className="lightgray-font big">
+                        <ReactHashtag>{post.text}</ReactHashtag>
+                    </p>
                 </div>
 
                 <div>
@@ -57,6 +61,8 @@ const Container = styled.li`
 
 const MessageContainer = styled.div`
     width: 100%;
+
+    span { color: white; font-weight: bold; cursor: pointer; }
 
     & > div:first-child p {
         margin-bottom: 14px;

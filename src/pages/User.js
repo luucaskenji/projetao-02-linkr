@@ -3,9 +3,9 @@ import React, { useContext, useEffect } from 'react';
 import { Container } from '../styles/PostsElements';
 
 import Header from '../components/Header';
+import PostsTrendings from '../components/PostsTrendings';
 
 import { PagesContext } from '../contexts/PagesContext';
-import PostsContext from '../contexts/PostsContext';
 
 export default function User(){
     const { url, setUrl } = useContext(PagesContext);
@@ -30,7 +30,7 @@ export default function User(){
                         <h2>{selectedUser}'s posts</h2>
                     </div>
 
-                    <PostsContext />
+                    <PostsTrendings />
                     
                 </main>
             </Container>

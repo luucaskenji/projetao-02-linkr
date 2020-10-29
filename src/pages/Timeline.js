@@ -3,9 +3,9 @@ import React, { useContext, useEffect } from 'react';
 import { Container } from '../styles/PostsElements';
 
 import Header from '../components/Header';
+import PostsTrendings from '../components/PostsTrendings';
 
 import { PagesContext } from '../contexts/PagesContext';
-import PostsContext from '../contexts/PostsContext';
 
 export default function Timeline() {
     
@@ -29,7 +29,7 @@ export default function Timeline() {
                         <h2>timeline</h2>
                     </div>
                     
-                    <PostsContext />
+                    <PostsTrendings />
                     
                 </main>
             </Container>

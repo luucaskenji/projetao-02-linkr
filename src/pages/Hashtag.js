@@ -2,9 +2,9 @@ import React, { useContext, useEffect } from 'react';
 import { Container } from '../styles/PostsElements';
 
 import Header from '../components/Header';
+import PostsTrendings from '../components/PostsTrendings';
 
 import { PagesContext } from '../contexts/PagesContext';
-import PostsContext from '../contexts/PostsContext';
 
 export default function Hashtag(){
     const { url, setUrl } = useContext(PagesContext);
@@ -29,7 +29,7 @@ export default function Hashtag(){
                         <h2># {selectedHashtag}</h2>
                     </div>
 
-                    <PostsContext />
+                    <PostsTrendings />
                     
                 </main>
             </Container>
