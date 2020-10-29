@@ -15,7 +15,7 @@ export default function UserDataProvider({ children }) {
     }
 
     return (
-        <UserDataContext.Provider value={{userData, getUserData}}>
+        <UserDataContext.Provider value={{userData, getUserData, setUserData}}>
             {children}
         </UserDataContext.Provider>
     );

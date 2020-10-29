@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 import { UserDataContext } from '../contexts/UserData';
 
 export default function Header () {
-    const { userData } = useContext(UserDataContext);
+    const { userData, setUserData } = useContext(UserDataContext);
     const [isVisible, setIsVisible] = useState(false);
 
     return (
@@ -19,7 +20,9 @@ export default function Header () {
                 <Menu isVisible={isVisible}>
                     <li>My posts</li>
                     <li>My likes</li>
-                    <li>Logout</li>
+                    <li onClick={() => setUserData({})}>
+                        <Link to='/'>Logout</Link>
+                    </li>
                 </Menu>
 
                 <img onClick={() => setIsVisible(!isVisible)} src={userData.avatar} />
