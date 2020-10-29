@@ -4,10 +4,13 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
 import { UserDataContext } from '../contexts/UserData';
+import { PagesContext } from '../contexts/PagesContext';
+
 
 export default function Header () {
     const { userData, setUserData } = useContext(UserDataContext);
     const [isVisible, setIsVisible] = useState(false);
+    const { goToMyPosts } = useContext(PagesContext);
 
     return (
         <HeaderStyle>
@@ -18,7 +21,11 @@ export default function Header () {
                 </IconContainer>
 
                 <Menu isVisible={isVisible}>
-                    <li>My posts</li>
+                    <li onClick={goToMyPosts}>
+                        <Link to='/my-posts'>
+                            My posts
+                        </Link>
+                    </li>
                     <li>My likes</li>
                     <li onClick={() => setUserData({})}>
                         <Link to='/'>Logout</Link>

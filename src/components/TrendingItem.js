@@ -5,14 +5,14 @@ import styled from 'styled-components';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function TrendingItem(props) {
-    const { setSelectedHashtag } = useContext(PagesContext);
+    const { goToHashtag } = useContext(PagesContext);
     
 
     const hashtagUrl = `/hashtag/${props.name}`;
     return (
         <Items>
             <Link to={hashtagUrl}>
-                <span onClick={() => setSelectedHashtag(props.name)}># {props.name}</span>
+                <span onClick={() => goToHashtag(props.name)}># {props.name}</span>
             </Link>
         </Items>
     );

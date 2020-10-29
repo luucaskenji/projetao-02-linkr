@@ -5,6 +5,7 @@ import Login from '../pages/Login';
 import Timeline from '../pages/Timeline';
 import Hashtag from '../pages/Hashtag';
 import User from '../pages/User';
+import MyPosts from '../pages/MyPosts';
 
 import UserDataProvider from '../contexts/UserData';
 import PagesProvider from '../contexts/PagesContext';
@@ -26,7 +27,10 @@ export default function App() {
                         </Route>  
                         <Route path='/user/:id'>
                             <User />
-                        </Route>                      
+                        </Route>            
+                        <Route path='/my-posts'>
+                            <MyPosts />    
+                        </Route>          
                     </Switch>
                 </Router>
             </PagesProvider>
