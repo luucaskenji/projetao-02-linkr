@@ -21,9 +21,11 @@ export default function PagesProvider({ children }) {
         setSelectedUser(nameuser);
     }
 
-    const goToHashtag = namehashtag => {
-        setUrl(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/hashtags/${namehashtag}/posts?offset=0&limit=5`);
-        setSelectedHashtag(namehashtag);
+    const goToHashtag = (namehashtag, history) => {
+        const splitedHashtag = namehashtag.split('#');
+        setUrl(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/hashtags/${splitedHashtag[1]}/posts?offset=0&limit=5`);
+        setSelectedHashtag(splitedHashtag[1]);        
+        history.push(`/hashtag/${splitedHashtag[1]}`);
     }
 
     const goToMyPosts = () => {

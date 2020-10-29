@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
-import { Link } from 'react-router-dom';
 
 import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
-
 export default function Header () {
-    const { userData, setUserData } = useContext(UserDataContext);
-    const [isVisible, setIsVisible] = useState(false);
+    const { userData } = useContext(UserDataContext);
     const { goToMyPosts } = useContext(PagesContext);
+    const [isVisible, setIsVisible] = useState(false);
 
     return (
         <HeaderStyle>
@@ -21,15 +20,14 @@ export default function Header () {
                 </IconContainer>
 
                 <Menu isVisible={isVisible}>
-                    <li onClick={goToMyPosts}>
+                    
+                        <li onClick={goToMyPosts} >
                         <Link to='/my-posts'>
                             My posts
                         </Link>
-                    </li>
+                        </li>              
                     <li>My likes</li>
-                    <li onClick={() => setUserData({})}>
-                        <Link to='/'>Logout</Link>
-                    </li>
+                    <li>Logout</li>
                 </Menu>
 
                 <img onClick={() => setIsVisible(!isVisible)} src={userData.avatar} />

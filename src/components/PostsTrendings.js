@@ -3,33 +3,33 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import Post from './Post';
-import Trending from './Trending';
-import ToPost from './ToPost';
+import Post from '../components/Post';
+import Trending from '../components/Trending';
+import ToPost from '../components/ToPost';
 
 import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function PostsTrendings() {
     const { userData } = useContext(UserDataContext);
-    const { url, setPosts, posts } = useContext(PagesContext);
+    const { url, setPosts, posts, currenRoute } = useContext(PagesContext);
 
     const currentRoute = useLocation()
     
     const [loading, setLoading] = useState(true);
-
+    // debugger;
     useEffect(() => {
         setPosts();        
         axios.get(url, userData.config)
-            .then(r => {                
+            .then(r => {      
                 setLoading(false);
                 setPosts(r.data.posts);                
             })
-            .catch(() => {
+            .catch(err => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
     }, [url]);
-
+    // debugger;
     const checkLoading = () => {
         if (loading || !posts) {
             return <img src='/images/loading.svg' />
@@ -41,7 +41,7 @@ export default function PostsTrendings() {
             return posts.map(p => <Post key={p.id} post={p} />)
         }
     }
-
+    // debugger;
     return(
         <div>
             <div>
@@ -87,3 +87,9 @@ const TrendingTopics = styled.aside`
         border-bottom: 1px solid #484848;
     }
 `;
+
+// if(url && url.length !== 0){
+//     console.log(url)
+//     console.log(currentRoute.pathname)
+//     console.log(posts)
+// }

@@ -6,7 +6,7 @@ import ReactHashtag from 'react-hashtag';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function Post({ post }) {
-    const { goToUser } = useContext(PagesContext);
+    const { goToUser, goToHashtag } = useContext(PagesContext);
     const history = useHistory();
 
     const userIdUrl = `/user/${post.user.id}`;
@@ -25,7 +25,7 @@ export default function Post({ post }) {
                         <p className='username' onClick={() => goToUser(post.user.id, post.user.username)}>{post.user.username}</p>
                     </Link>
                     <p className="lightgray-font big">
-                        <ReactHashtag>{post.text}</ReactHashtag>
+                        <ReactHashtag onHashtagClick={(hashtagValue) => goToHashtag(hashtagValue, history)}>{post.text}</ReactHashtag>
                     </p>
                 </div>
 

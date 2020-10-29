@@ -1,19 +1,19 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function TrendingItem(props) {
     const { goToHashtag } = useContext(PagesContext);
-    
+    const history = useHistory();    
 
     const hashtagUrl = `/hashtag/${props.name}`;
     return (
         <Items>
-            <Link to={hashtagUrl}>
-                <span onClick={() => goToHashtag(props.name)}># {props.name}</span>
-            </Link>
+            
+            <span onClick={() => goToHashtag(`#${props.name}`, history)}># {props.name}</span>
+           
         </Items>
     );
 }
