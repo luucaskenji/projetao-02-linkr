@@ -29,7 +29,7 @@ export default function Post({ post }) {
                     </p>
                 </div>
 
-                <div>
+                <LinkContainer onClick={() => window.open(`${post.link}`, '_blank')}>
                     <div>
                         <p className='lightgray-font big'>{post.linkTitle}</p>
                         <p className='gray-font small'>{post.linkDescription}</p>
@@ -37,7 +37,7 @@ export default function Post({ post }) {
                     </div>
 
                     <img src={post.linkImage} />
-                </div>
+                </LinkContainer>
             </MessageContainer>
         </Container>
     );
@@ -70,37 +70,6 @@ const MessageContainer = styled.div`
         margin-bottom: 14px;
     }
 
-    & > div:last-child {
-        display: flex;
-        border: 1px solid #4D4D4D;
-        border-radius: 16px;
-        width: 100%;
-        height: 155px;
-        
-        p {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;  
-            overflow: hidden;
-            margin-bottom: 4px;              
-        }
-
-        img {
-            width: 50%;
-            object-fit: cover;
-            margin-left: 6px;
-            border-radius: 0 16px 16px 0;
-        }
-        
-        div {
-            width: 50%;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-    }
-
     .username {
         font-size: 19px;
         color: white;
@@ -110,4 +79,36 @@ const MessageContainer = styled.div`
     .gray-font { color: #9B9595; } 
     .big { font-size: 16px; }
     .small { font-size: 12px; }
+`;
+
+const LinkContainer = styled.div`
+    display: flex;
+    border: 1px solid #4D4D4D;
+    border-radius: 16px;
+    width: 100%;
+    height: 155px;
+    cursor: pointer;
+    
+    p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+        margin-bottom: 4px;              
+    }
+
+    img {
+        width: 50%;
+        object-fit: cover;
+        margin-left: 6px;
+        border-radius: 0 16px 16px 0;
+    }
+    
+    div {
+        width: 50%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 `;
