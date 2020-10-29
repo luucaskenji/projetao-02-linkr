@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { HashtagContext } from '../contexts/HashtagContext';
+import { PagesContext } from '../contexts/PagesContext';
 
 export default function TrendingItem(props) {
-    const {setSelectedHashtag} = useContext(HashtagContext);
+    const { setSelectedHashtag } = useContext(PagesContext);
     
 
     const hashtagUrl = `/hashtag/${props.name}`;

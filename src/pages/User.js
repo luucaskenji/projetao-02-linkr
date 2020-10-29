@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+
 import { Container } from '../styles/PostsElements';
 
 import Header from '../components/Header';
@@ -6,14 +7,14 @@ import Header from '../components/Header';
 import { PagesContext } from '../contexts/PagesContext';
 import PostsContext from '../contexts/PostsContext';
 
-export default function Hashtag(){
+export default function User(){
     const { url, setUrl } = useContext(PagesContext);
-    const {selectedHashtag} = useContext(PagesContext);
+    const {selectedUser} = useContext(PagesContext);
 
 
     useEffect(() => {
-        setUrl(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/hashtags/${selectedHashtag}/posts?offset=0&limit=5`);
-    }, [selectedHashtag]);
+        setUrl(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/${selectedUser}/posts?offset=0&limit=5`);
+    }, [selectedUser]);
 
     if(url.length === 0){
         return <img src='/images/loading.svg' />;
@@ -26,7 +27,7 @@ export default function Hashtag(){
             <Container>
                 <main>
                     <div>
-                        <h2># {selectedHashtag}</h2>
+                        <h2>{selectedUser}'s posts</h2>
                     </div>
 
                     <PostsContext />
@@ -35,5 +36,4 @@ export default function Hashtag(){
             </Container>
         </>
     );
-
 }

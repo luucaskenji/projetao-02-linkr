@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { PagesContext } from '../contexts/PagesContext';
+
 export default function Post({ post }) {
+    const { setSelectedUser } = useContext(PagesContext);
+
+    const userIdUrl = `/user/${post.user.id}`;
+
     return (
         <Container>
             <div>
@@ -10,7 +17,9 @@ export default function Post({ post }) {
 
             <MessageContainer>
                 <div>
-                    <p className='username'>{post.user.username}</p>
+                    <Link to={userIdUrl}>
+                        <p className='username' onClick={() => setSelectedUser(post.user.id)}>{post.user.username}</p>
+                    </Link>
                     <p className='lightgray-font big'>{post.text}</p>
                 </div>
 
