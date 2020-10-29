@@ -2,17 +2,17 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-
 import { UserDataContext } from '../contexts/UserData';
 import TrendingItem from '../components/TrendingItem';
 
 export default function Trending() {
     const { userData } = useContext(UserDataContext);
-    const  [trendingTopics, setTrendingTopics] = useState([]);
+    const [trendingTopics, setTrendingTopics] = useState([]);
 
     useEffect(() => {
         axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/hashtags/trending', userData.config)
             .then(r => {
+                console.log(r);
                 setTrendingTopics(r.data.hashtags);
             })
             .catch(() => {

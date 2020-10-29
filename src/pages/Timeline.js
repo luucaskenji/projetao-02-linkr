@@ -1,23 +1,27 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
 import { Container } from '../styles/PostsElements';
-
 import Header from '../components/Header';
 import PostsTrendings from '../components/PostsTrendings';
-
 import { PagesContext } from '../contexts/PagesContext';
+import { UserDataContext } from '../contexts/UserData';
 
 export default function Timeline() {
-    
-    const { url, setUrl } = useContext(PagesContext);
-    
-    useEffect(() => {
-        setUrl('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts?offset=0&limit=5');
-    }, []);
+    const { userData } = useContext(UserDataContext);
+    const { setPosts, posts } = useContext(PagesContext);
+    const [loading, setLoading] = useState(true);
 
-    if(url.length === 0){
-        return <img src='/images/loading.svg' />;
-    }
+    useEffect(() => {    
+        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts?offset=0&limit=5', userData.config)
+            .then(r => {      
+                setLoading(false);
+                setPosts(r.data.posts);                
+            })
+            .catch(() => {
+                alert('Houve uma falha ao obter os posts, por favor atualize a página')
+            });
+    }, [posts]);
 
     return (
         <>
@@ -29,7 +33,7 @@ export default function Timeline() {
                         <h2>timeline</h2>
                     </div>
                     
-                    <PostsTrendings />
+                    <PostsTrendings loading={loading} />
                     
                 </main>
             </Container>

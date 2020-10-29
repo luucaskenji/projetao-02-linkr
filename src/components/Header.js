@@ -7,7 +7,7 @@ import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function Header () {
-    const { userData } = useContext(UserDataContext);
+    const { userData, setUserData } = useContext(UserDataContext);
     const { goToMyPosts } = useContext(PagesContext);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -21,13 +21,17 @@ export default function Header () {
 
                 <Menu isVisible={isVisible}>
                     
-                        <li onClick={goToMyPosts} >
+                    <li onClick={goToMyPosts} >
                         <Link to='/my-posts'>
                             My posts
                         </Link>
-                        </li>              
+                    </li>              
+
                     <li>My likes</li>
-                    <li>Logout</li>
+                    
+                    <li onClick={() => setUserData({})}>
+                        <Link to='/'>Logout</Link>
+                    </li>
                 </Menu>
 
                 <img onClick={() => setIsVisible(!isVisible)} src={userData.avatar} />

@@ -6,26 +6,29 @@ import ReactHashtag from 'react-hashtag';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function Post({ post }) {
-    const { goToUser, goToHashtag } = useContext(PagesContext);
+    const { setSelectedUser, setSelectedHashtag } = useContext(PagesContext);
     const history = useHistory();
 
-    const userIdUrl = `/user/${post.user.id}`;
+    const goToHashtag = hashtagValue => {
+        setSelectedHashtag(hashtagValue.split('#')[1]);
+        history.push(`/hashtag/${hashtagValue.split('#')[1]}`)
+    }
 
     return (
         <Container>
             <div>
-                <Link to={userIdUrl}>
-                    <img onClick={() => goToUser(post.user.id, post.user.username)} src={post.user.avatar} />
+                <Link to={`/user/${post.user.id}`}>
+                    <img onClick={() => setSelectedUser(post.user)} src={post.user.avatar} />
                 </Link>
             </div>
 
             <MessageContainer>
                 <div>
-                    <Link to={userIdUrl}>
-                        <p className='username' onClick={() => goToUser(post.user.id, post.user.username)}>{post.user.username}</p>
+                    <Link to={`/user/${post.user.id}`}>
+                        <p className='username' onClick={() => setSelectedUser(post.user)}>{post.user.username}</p>
                     </Link>
                     <p className="lightgray-font big">
-                        <ReactHashtag onHashtagClick={(hashtagValue) => goToHashtag(hashtagValue, history)}>{post.text}</ReactHashtag>
+                        <ReactHashtag onHashtagClick={goToHashtag}>{post.text}</ReactHashtag>
                     </p>
                 </div>
 

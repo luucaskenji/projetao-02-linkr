@@ -1,17 +1,27 @@
-import React, { useContext, useEffect } from 'react';
-import { Container } from '../styles/PostsElements';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
+import { Container } from '../styles/PostsElements';
 import Header from '../components/Header';
 import PostsTrendings from '../components/PostsTrendings';
-
+import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function Hashtag(){
-    const { url, selectedHashtag } = useContext(PagesContext);
+    const { selectedHashtag, setPosts } = useContext(PagesContext);
+    const [loading, setLoading] = useState(true);
+    const { userData } = useContext(UserDataContext);
 
-    if(url.length === 0){
-        return <img src='/images/loading.svg' />;
-    }
+    useEffect(() => {
+        axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/hashtags/${selectedHashtag}/posts?offset=0&limit=5`, userData.config)
+            .then(r => {      
+                setLoading(false);
+                setPosts(r.data.posts);                
+            })
+            .catch(() => {
+                alert('Houve uma falha ao obter os posts, por favor atualize a página')
+            });
+    }, [selectedHashtag]);
         
     return (
         <>
@@ -23,7 +33,7 @@ export default function Hashtag(){
                         <h2># {selectedHashtag}</h2>
                     </div>
 
-                    <PostsTrendings />
+                    <PostsTrendings loading={loading} />
                     
                 </main>
             </Container>

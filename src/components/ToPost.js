@@ -2,13 +2,19 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import { PagesContext } from '../contexts/PagesContext';
+
 export default function ToPost({ userData }) {
+    const { setPosts, posts } = useContext(PagesContext);
     const [link, setLink] = useState('');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
+
     const postOnServer = e => {
         e.preventDefault();
+
         if (loading) return;
+
         if (!link) {
             alert('Campo de link obrigatório');
             return;
@@ -20,6 +26,7 @@ export default function ToPost({ userData }) {
                 setLink('');
                 setText('');
                 setLoading(false);
+                setPosts([...posts]);
             })
             .catch(() => {
                 alert('Erro ao publicar');
@@ -58,11 +65,14 @@ const Container = styled.div`
     display: flex;
     border-radius: 16px;
     margin-bottom: 25px;
+
     div:last-child { flex-grow: 1; }
+
     form {
         width: 100%;
         display: flex;
         flex-direction: column;
+
         input {
             background-color: #EFEFEF;
             padding-left: 8px;
@@ -75,17 +85,21 @@ const Container = styled.div`
             height: 86px;
             font-family: 'Lato', sans-serif;
         }
+
         input:first-child { height: 30px; }
     }
+
     p { 
         font-size: 17px; 
         margin-bottom: 12px;
     }
+
     img {
         width: 50px;
         border-radius: 50%;
         margin-right: 10px;
     }
+
     button {
         background: #1877F2;
         display: flex;

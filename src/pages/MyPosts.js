@@ -1,16 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 import { Container } from '../styles/PostsElements';
 import Header from '../components/Header';
 import PostsTrendings from '../components/PostsTrendings';
+import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function MyPosts(){
-    const { url } = useContext(PagesContext);
+    const [loading, setLoading] = useState(true);
+    const { userData } = useContext(UserDataContext);
+    const { setPosts } = useContext(PagesContext);
 
-    if(url.length === 0){
-        return <img src='/images/loading.svg' />;
-    }
+    useEffect(() => {
+        axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/${userData.myId}/posts?offset=0&limit=5`, userData.config)
+            .then(r => {      
+                setLoading(false);
+                setPosts(r.data.posts);                
+            })
+            .catch((e) => {
+                console.log(e);
+                alert('Houve uma falha ao obter os posts, por favor atualize a página')
+            });
+    }, []);
         
     return (
         <>
@@ -21,7 +33,8 @@ export default function MyPosts(){
                     <div>
                         <h2>my posts</h2>
                     </div>
-                    <PostsTrendings />
+
+                    <PostsTrendings loading={loading} />
                     
                 </main>
             </Container>
