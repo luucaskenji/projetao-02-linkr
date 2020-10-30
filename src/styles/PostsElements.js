@@ -8,13 +8,19 @@ export const Container = styled.div`
     align-items: center;
 
     main { 
-        width: 75vw; 
+        width: 75vw;
+
+        @media (max-width: 800px) { width: 100%; }
 
         & > div:last-child {
             display: flex;
             justify-content:space-between;
             
-            & > div:first-child { width: 65%; }
+            & > div:first-child { 
+                width: 65%;
+
+                @media (max-width: 800px) { width: 100%; }
+            }
         }
     }
 
@@ -25,5 +31,7 @@ export const Container = styled.div`
         font-weight: 700;
         letter-spacing: 2px;
         margin-bottom: 25px;
+        
+        @media (max-width: 800px) { font-size: 36px; margin-left: 15px; }
     }
 `;

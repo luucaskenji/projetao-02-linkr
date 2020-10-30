@@ -54,6 +54,8 @@ const Container = styled.li`
     word-break: break-all;
     font-family: 'Lato', sans-serif;
 
+    @media (max-width: 800px) { border-radius: 0; }
+
     & > div:first-child {
         margin-right: 10px;
 

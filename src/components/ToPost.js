@@ -66,7 +66,16 @@ const Container = styled.div`
     border-radius: 16px;
     margin-bottom: 25px;
 
-    div:last-child { flex-grow: 1; }
+    @media (max-width: 800px) { border-radius: 0; }    
+
+    div:last-child { 
+        flex-grow: 1;
+
+        @media (max-width: 800px) { 
+            text-align: center; 
+            line-height: 25px;
+        }
+    }
 
     form {
         width: 100%;
@@ -98,9 +107,12 @@ const Container = styled.div`
         width: 50px;
         border-radius: 50%;
         margin-right: 10px;
+
+        @media (max-width: 800px) { display: none; }
     }
 
     button {
+        font-family: 'Lato', 'sans-serif';
         background: #1877F2;
         display: flex;
         align-items: center;
@@ -109,6 +121,8 @@ const Container = styled.div`
         height: 30px;
         color: white;
         border-radius: 5px;
-        align-self: flex-end;   
+        align-self: flex-end;
+
+        @media (max-width: 800px) { align-self: center; }
     }
 `;

@@ -81,4 +81,8 @@ const TrendingTopics = styled.aside`
         padding: 20px 15px;
         border-bottom: 1px solid #484848;
     }
+
+    @media (max-width: 800px) {
+        display: none;
+    }
 `;

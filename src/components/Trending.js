@@ -12,7 +12,6 @@ export default function Trending() {
     useEffect(() => {
         axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/hashtags/trending', userData.config)
             .then(r => {
-                console.log(r);
                 setTrendingTopics(r.data.hashtags);
             })
             .catch(() => {

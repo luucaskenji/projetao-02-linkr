@@ -18,8 +18,7 @@ export default function MyPosts(){
                 setLoading(false);
                 setPosts(r.data.posts);                
             })
-            .catch((e) => {
-                console.log(e);
+            .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
     }, []);
