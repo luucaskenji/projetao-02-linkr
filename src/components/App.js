@@ -6,6 +6,7 @@ import Timeline from '../pages/Timeline';
 import Hashtag from '../pages/Hashtag';
 import User from '../pages/User';
 import MyPosts from '../pages/MyPosts';
+import MyLikes from '../pages/MyLikes';
 
 import UserDataProvider from '../contexts/UserData';
 import PagesProvider from '../contexts/PagesContext';
@@ -30,7 +31,10 @@ export default function App() {
                         </Route>            
                         <Route path='/my-posts'>
                             <MyPosts />    
-                        </Route>          
+                        </Route>  
+                        <Route path='/my-likes'>
+                            <MyLikes />    
+                        </Route>         
                     </Switch>
                 </Router>
             </PagesProvider>

@@ -1,19 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { Container } from '../styles/PostsElements';
 import Header from '../components/Header';
 import PostsTrendings from '../components/PostsTrendings';
-import { PagesContext } from '../contexts/PagesContext';
 import { UserDataContext } from '../contexts/UserData';
+import { PagesContext } from '../contexts/PagesContext';
 
-export default function Timeline() {
-    const { userData } = useContext(UserDataContext);
-    const { setPosts, reloadTL } = useContext(PagesContext);
+export default function MyLikes(){
     const [loading, setLoading] = useState(true);
-    
-    useEffect(() => {    
-        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts?offset=0&limit=5', userData.config)
+    const { userData } = useContext(UserDataContext);
+    const { setPosts } = useContext(PagesContext);
+
+    useEffect(() => {
+        axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts/liked`, userData.config)
             .then(r => {      
                 setLoading(false);
                 setPosts(r.data.posts);                
@@ -21,8 +21,8 @@ export default function Timeline() {
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
-    }, [reloadTL]);
-
+    }, []);
+        
     return (
         <>
             <Header />
@@ -30,9 +30,9 @@ export default function Timeline() {
             <Container>
                 <main>
                     <div>
-                        <h2>timeline</h2>
+                        <h2>my likes</h2>
                     </div>
-                    
+
                     <PostsTrendings loading={loading} />
                     
                 </main>

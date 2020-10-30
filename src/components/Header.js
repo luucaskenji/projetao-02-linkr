@@ -20,15 +20,16 @@ export default function Header () {
                 </IconContainer>
 
                 <Menu isVisible={isVisible}>
-                    
                     <li onClick={goToMyPosts} >
                         <Link to='/my-posts'>
                             My posts
                         </Link>
-                    </li>              
-
-                    <li>My likes</li>
-                    
+                    </li>
+                    <li>
+                        <Link to='/my-likes'>
+                            My likes
+                        </Link>
+                    </li>
                     <li onClick={() => setUserData({})}>
                         <Link to='/'>Logout</Link>
                     </li>

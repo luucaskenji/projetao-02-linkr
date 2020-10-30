@@ -5,7 +5,7 @@ import axios from 'axios';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function ToPost({ userData }) {
-    const { setPosts, posts } = useContext(PagesContext);
+    const { reloadTL, setReloadTL } = useContext(PagesContext);
     const [link, setLink] = useState('');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ export default function ToPost({ userData }) {
                 setLink('');
                 setText('');
                 setLoading(false);
-                setPosts([...posts]);
+                setReloadTL(!reloadTL);
             })
             .catch(() => {
                 alert('Erro ao publicar');

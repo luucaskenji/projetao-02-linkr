@@ -1,25 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactHashtag from 'react-hashtag';
+
+import Likes from '../components/Likes';
 
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function Post({ post }) {
     const { setSelectedUser, setSelectedHashtag } = useContext(PagesContext);
     const history = useHistory();
-
+    
     const goToHashtag = hashtagValue => {
         setSelectedHashtag(hashtagValue.split('#')[1]);
         history.push(`/hashtag/${hashtagValue.split('#')[1]}`)
     }
-
     return (
         <Container>
             <div>
                 <Link to={`/user/${post.user.id}`}>
                     <img onClick={() => setSelectedUser(post.user)} src={post.user.avatar} />
-                </Link>
+                </Link>                
+                <Likes post={post} />                            
             </div>
 
             <MessageContainer>
@@ -58,10 +60,15 @@ const Container = styled.li`
 
     & > div:first-child {
         margin-right: 10px;
+        text-align: center;
 
         img {
             width: 50px;
             border-radius: 50%;
+        }
+
+        p{
+            color: #FFF;
         }
     }
 `;

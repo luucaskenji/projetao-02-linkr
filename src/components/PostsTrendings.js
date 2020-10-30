@@ -23,7 +23,11 @@ export default function PostsTrendings({ loading }) {
             );
         }
         else if (posts.length === 0 ){
-            return 'Nenhum post encontrado';
+            return (
+                <LoadingContainer>
+                    <h3>Nenhum post encontrado</h3>
+                </LoadingContainer>
+            );
         }
         else {
             return posts.map(p => <Post key={p.id} post={p} />)
@@ -61,8 +65,11 @@ const PostContainer = styled.div `
 `;
 
 const LoadingContainer = styled.div`
-    display: flex;
-    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-family: 'Lato', sans-serif;
+    padding-top: 20px;
 
     img { width: 50px; }
 `;
