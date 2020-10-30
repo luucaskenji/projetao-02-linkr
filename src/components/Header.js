@@ -54,6 +54,7 @@ const HeaderStyle = styled.header`
     align-items: center;
     color: white;
     font-family: 'Passion One', cursive;
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.8);
 
     & > div { 
         height: 100%; 

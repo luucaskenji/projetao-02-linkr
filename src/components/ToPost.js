@@ -65,6 +65,7 @@ const Container = styled.div`
     display: flex;
     border-radius: 16px;
     margin-bottom: 25px;
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.6);
 
     @media (max-width: 800px) { border-radius: 0; }    
 
