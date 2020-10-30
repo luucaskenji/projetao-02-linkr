@@ -46,7 +46,6 @@ const Container = styled.div`
             font-family: 'Oswald', sans-serif;
             font-size: 43px;
             letter-spacing: 2px;
-            font-weight: 700;
             margin-top: 16px;
         }
     }
@@ -68,5 +67,34 @@ const Container = styled.div`
             background: transparent;
             font-family: 'Lato', sans-serif;
         }
+    }
+
+    @media(max-width: 800px) {
+        flex-direction: column;       
+
+        div:first-child{  
+            height: auto; 
+            justify-content: center;
+            align-items: center;         
+            padding: 15px 0px 25px;
+            font-size: 76px;
+            letter-spacing: 3px;
+
+            p { 
+                font-size: 23px;
+                letter-spacing: 1px;
+                margin: 0px;
+            }
+        }
+        div:last-child {
+            width: 100%;
+            height: auto; 
+            padding: 40px 20px;
+            
+            & > button { 
+                font-size: 17px;
+            }
+        }
+
     }
 `;

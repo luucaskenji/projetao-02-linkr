@@ -76,7 +76,6 @@ const TrendingTopics = styled.aside`
 
     h3{
         font-family: 'Oswald', sans-serif;
-        font-weight: 700;
         font-size: 27px;
         padding: 20px 15px;
         border-bottom: 1px solid #484848;

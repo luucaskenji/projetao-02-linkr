@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const MainPageInput = styled.input` 
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     padding: 8px;
     font-size: 23px;
     font-weight: 800;

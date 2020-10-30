@@ -28,7 +28,6 @@ export const Container = styled.div`
         font-family: 'Oswald', sans-serif;
         font-size: 43px;
         color: white;
-        font-weight: 700;
         letter-spacing: 2px;
         margin-bottom: 25px;
         
