@@ -25,7 +25,7 @@ export default function User(){
     }, []);
         
     return (
-        <>
+        <React.Fragment>
             <Header />
     
             <Container>
@@ -38,6 +38,6 @@ export default function User(){
                     
                 </main>
             </Container>
-        </>
+        </React.Fragment>
     );
 }

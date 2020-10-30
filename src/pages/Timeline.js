@@ -24,7 +24,7 @@ export default function Timeline() {
     }, [posts]);
 
     return (
-        <>
+        <React.Fragment>
             <Header />
     
             <Container>
@@ -37,6 +37,6 @@ export default function Timeline() {
                     
                 </main>
             </Container>
-        </>
+        </React.Fragment>
     );
 }
