@@ -24,7 +24,7 @@ export default function MyPosts(){
     }, []);
         
     return (
-        <React.Fragment>
+        <>
             <Header />
     
             <Container>
@@ -37,6 +37,6 @@ export default function MyPosts(){
                     
                 </main>
             </Container>
-        </React.Fragment>
+        </>
     );
 }

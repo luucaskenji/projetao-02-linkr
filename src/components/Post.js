@@ -1,14 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactHashtag from 'react-hashtag';
+import { FaTrash } from 'react-icons/fa';
 
 import Likes from '../components/Likes';
 
 import { PagesContext } from '../contexts/PagesContext';
+import { UserDataContext } from '../contexts/UserData';
 
 export default function Post({ post }) {
     const { setSelectedUser, setSelectedHashtag } = useContext(PagesContext);
+    const { userData } = useContext(UserDataContext);
     const history = useHistory();
     
     const goToHashtag = hashtagValue => {
@@ -26,9 +29,14 @@ export default function Post({ post }) {
 
             <MessageContainer>
                 <div>
-                    <Link to={`/user/${post.user.id}`}>
-                        <p className='username' onClick={() => setSelectedUser(post.user)}>{post.user.username}</p>
-                    </Link>
+                    <div>
+                        <Link to={`/user/${post.user.id}`}>
+                            <p className='username' onClick={() => setSelectedUser(post.user)}>{post.user.username}</p>
+                        </Link>
+                        
+                        {userData.username === post.user.username && <FaTrash size='15px' color='white' onClick={() => alert('teste')} />}
+                    </div>
+
                     <p className="lightgray-font big">
                         <ReactHashtag onHashtagClick={goToHashtag}>{post.text}</ReactHashtag>
                     </p>
@@ -49,7 +57,7 @@ export default function Post({ post }) {
 }
 
 const Container = styled.li`
-    padding: 10px;
+    padding: 15px;
     border-radius: 16px;
     background-color: #171717;
     display: flex;
@@ -78,8 +86,13 @@ const MessageContainer = styled.div`
 
     span { color: white; font-weight: bold; cursor: pointer; }
 
-    & > div:first-child p {
-        margin-bottom: 14px;
+    & > div:first-child {
+        div {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        p { margin-bottom: 14px; }
     }
 
     .username {

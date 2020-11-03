@@ -24,7 +24,7 @@ export default function Hashtag(){
     }, [selectedHashtag]);
         
     return (
-        <React.Fragment>
+        <>
             <Header />
     
             <Container>
@@ -37,7 +37,7 @@ export default function Hashtag(){
                     
                 </main>
             </Container>
-        </React.Fragment>
+        </>
     );
 
 }

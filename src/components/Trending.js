@@ -25,12 +25,12 @@ export default function Trending() {
         ); 
     }
     return(
-        <React.Fragment>
+        <>
             <h3>trending</h3>
             <Container>
                 {trendingTopics.map(h => <TrendingItem key={h.id} name={h.name} />)}
             </Container>
-        </React.Fragment>
+        </>
     );
 }
 
