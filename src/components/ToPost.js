@@ -45,7 +45,7 @@ export default function ToPost({ userData }) {
                         value={link}
                         disabled={loading}
                     />
-                    <input 
+                    <textarea 
                         placeholder='Muito irado esse link falando de #javascript' 
                         onChange={e => setText(e.target.value)}
                         value={text} 
@@ -83,9 +83,9 @@ const Container = styled.div`
         display: flex;
         flex-direction: column;
 
-        input {
+        input,textarea {
             background-color: #EFEFEF;
-            padding-left: 8px;
+            padding: 8px;
             width: 100%;
             border-radius: 5px;
             outline: none;
@@ -94,9 +94,10 @@ const Container = styled.div`
             margin-bottom: 12px;
             height: 86px;
             font-family: 'Lato', sans-serif;
+            resize: none;
         }
 
-        input:first-child { height: 30px; }
+        input { height: 30px; }
     }
 
     p { 

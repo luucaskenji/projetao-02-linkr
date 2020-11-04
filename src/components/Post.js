@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import ReactHashtag from 'react-hashtag';
 import { FaTrash } from 'react-icons/fa';
+import { TiPencil } from 'react-icons/ti';
 
 import Likes from '../components/Likes';
 
@@ -11,8 +13,40 @@ import { UserDataContext } from '../contexts/UserData';
 
 export default function Post({ post }) {
     const { setSelectedUser, setSelectedHashtag } = useContext(PagesContext);
-    const { userData } = useContext(UserDataContext);
+    const { userData } = useContext(UserDataContext);    
+
+    const [edit, setEdit] = useState(false);    
+    const [loading, setLoading] = useState(false);
+    const [text, setText] = useState(post.text);
+
     const history = useHistory();
+    const txtEdit = useRef();
+
+
+    const test = e => {
+        e.preventDefault();
+        if (loading) return;
+        setLoading(true);
+
+        axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts/${post.id}`, { text }, userData.config)
+            .then(() => {
+                setLoading(false);
+                setEdit(!edit);
+            })
+            .catch(err => {
+                alert('Erro ao editar');
+                setLoading(false);
+            })
+    }
+
+    useEffect(() => {
+        if(edit){
+            txtEdit.current.value = "";
+            txtEdit.current.focus();
+            txtEdit.current.value = text;
+        }
+    }, [edit]);
+    
     
     const goToHashtag = hashtagValue => {
         setSelectedHashtag(hashtagValue.split('#')[1]);
@@ -33,13 +67,15 @@ export default function Post({ post }) {
                         <Link to={`/user/${post.user.id}`}>
                             <p className='username' onClick={() => setSelectedUser(post.user)}>{post.user.username}</p>
                         </Link>
-                        
-                        {userData.username === post.user.username && <FaTrash size='15px' color='white' onClick={() => alert('teste')} />}
+                        <div>
+                            {userData.username === post.user.username && <TiPencil size='15px' color='white' onClick={() => setEdit(!edit)} />}
+                            {userData.username === post.user.username && <FaTrash size='15px' color='white' onClick={() => alert('teste')} />}
+                        </div>
                     </div>
-
-                    <p className="lightgray-font big">
-                        <ReactHashtag onHashtagClick={goToHashtag}>{post.text}</ReactHashtag>
-                    </p>
+                    {edit
+                        ? <form onSubmit={test}><input defaultValue={text} ref={txtEdit} disabled={loading} onChange={e => setText(e.target.value)} /></form> 
+                        : <p className="lightgray-font big"><ReactHashtag onHashtagClick={goToHashtag}>{text}</ReactHashtag></p>
+                    }
                 </div>
 
                 <LinkContainer onClick={() => window.open(`${post.link}`, '_blank')}>
@@ -55,6 +91,8 @@ export default function Post({ post }) {
         </Container>
     );
 }
+
+
 
 const Container = styled.li`
     padding: 15px;
@@ -104,6 +142,19 @@ const MessageContainer = styled.div`
     .gray-font { color: #9B9595; } 
     .big { font-size: 16px; }
     .small { font-size: 12px; }
+
+    input {
+        background-color: #EFEFEF;
+        padding: 8px;
+        width: 100%;
+        border-radius: 5px;
+        outline: none;
+        border: none;
+        font-size: 15px;
+        margin-bottom: 12px;
+        font-family: 'Lato', sans-serif;
+        resize: none;
+    }
 `;
 
 const LinkContainer = styled.div`
