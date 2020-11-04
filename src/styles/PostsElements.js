@@ -12,6 +12,13 @@ export const Container = styled.div`
 
         @media (max-width: 800px) { width: 100%; }
 
+        & > div:first-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;    
+        }
+
         & > div:last-child {
             display: flex;
             justify-content:space-between;
@@ -29,7 +36,6 @@ export const Container = styled.div`
         font-size: 43px;
         color: white;
         letter-spacing: 2px;
-        margin-bottom: 25px;
         
         @media (max-width: 800px) { font-size: 36px; margin-left: 15px; }
     }
