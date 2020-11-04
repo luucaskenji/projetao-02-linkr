@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactHashtag from 'react-hashtag';
 import { FaTrash } from 'react-icons/fa';
+import Modal from 'react-modal';
+import axios from 'axios';
 
 import Likes from '../components/Likes';
 
@@ -10,14 +12,33 @@ import { PagesContext } from '../contexts/PagesContext';
 import { UserDataContext } from '../contexts/UserData';
 
 export default function Post({ post }) {
-    const { setSelectedUser, setSelectedHashtag } = useContext(PagesContext);
+    const { setSelectedUser, setSelectedHashtag, reloadTL, setReloadTL } = useContext(PagesContext);
     const { userData } = useContext(UserDataContext);
+    const [showingModal, setShowingModal] = useState(false);
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
+
+    Modal.setAppElement('#root');
     
     const goToHashtag = hashtagValue => {
         setSelectedHashtag(hashtagValue.split('#')[1]);
-        history.push(`/hashtag/${hashtagValue.split('#')[1]}`)
+        history.push(`/hashtag/${hashtagValue.split('#')[1]}`);
     }
+
+    const deletePost = () => {
+        if (loading) return;
+
+        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts/${post.id}`, userData.config)
+            .then(() => {
+                setLoading(false);
+                setReloadTL(!reloadTL);
+            })
+            .catch(() => {
+                setLoading(false);
+                alert('Não foi possível excluir o post');
+            })
+    }
+    
     return (
         <Container>
             <div>
@@ -34,8 +55,30 @@ export default function Post({ post }) {
                             <p className='username' onClick={() => setSelectedUser(post.user)}>{post.user.username}</p>
                         </Link>
                         
-                        {userData.username === post.user.username && <FaTrash size='15px' color='white' onClick={() => alert('teste')} />}
+                        {
+                        userData.username === post.user.username && 
+                            <FaTrash 
+                                size='15px'
+                                color='white'
+                                onClick={() => setShowingModal(true)}
+                            />
+                        }
                     </div>
+
+                    <Modal style={ModalStyle} isOpen={showingModal}>
+                        <ModalContainer>
+                            {loading ? <img src='/images/loading.svg' /> : <ModalSpan>Tem certeza que deseja excluir a publicação?</ModalSpan>}
+                            <ModalButtons loading={loading}>
+                                <button onClick={() => setShowingModal(false)}>
+                                    Não, voltar
+                                </button>
+
+                                <button onClick={deletePost}>
+                                    Sim, excluir
+                                </button>
+                            </ModalButtons>
+                        </ModalContainer>
+                    </Modal>
 
                     <p className="lightgray-font big">
                         <ReactHashtag onHashtagClick={goToHashtag}>{post.text}</ReactHashtag>
@@ -137,3 +180,64 @@ const LinkContainer = styled.div`
         justify-content: space-between;
     }
 `;
+
+const ModalContainer = styled.div`
+    background-color: #333333;
+    padding: 30px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 597px;
+    height: 262px;
+    font-family: 'Lato', 'sans-serif';
+    border-radius: 50px;
+
+    img { width: 25px; }
+`;
+
+const ModalSpan = styled.span`
+    font-size: 30px;
+    color: white;
+    margin-bottom: 18px;
+    text-align: center;
+`;
+
+const ModalButtons = styled.div`
+    display: flex;
+    justify-content: center;
+
+    button:first-child {
+        background-color: ${({ loading }) => loading ? 'lightgray' : 'white'};
+        color: #1877F2;
+        padding: 8px 12px;
+        margin-right: 20px;
+        font-size: 17px;
+        border-radius: 5px;
+    }
+
+    button:last-child {
+        background-color: ${({ loading }) => loading ? 'lightgray' : '#1877F2'};
+        color: white;
+        padding: 5px 10px;
+        margin-left: 20px;
+        font-size: 17px;
+        border-radius: 5px;
+    }
+`;
+
+const ModalStyle = {
+    overlay: {
+        'width': '100vw',
+        'height': '100vh',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center'
+    },
+    content: {
+        'background': 'none',
+        'border': 'none',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center'
+    }
+}
