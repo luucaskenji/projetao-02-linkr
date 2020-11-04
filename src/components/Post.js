@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import ReactHashtag from 'react-hashtag';
+import Modal from 'react-modal';
 import { FaTrash } from 'react-icons/fa';
 import { TiPencil } from 'react-icons/ti';
 
@@ -12,16 +13,18 @@ import { PagesContext } from '../contexts/PagesContext';
 import { UserDataContext } from '../contexts/UserData';
 
 export default function Post({ post }) {
-    const { setSelectedUser, setSelectedHashtag } = useContext(PagesContext);
+    const { setSelectedUser, setSelectedHashtag, reloadTL, setReloadTL } = useContext(PagesContext);
     const { userData } = useContext(UserDataContext);    
 
     const [edit, setEdit] = useState(false);    
     const [loading, setLoading] = useState(false);
     const [text, setText] = useState(post.text);
+    const [showingModal, setShowingModal] = useState(false);
 
     const history = useHistory();
     const txtEdit = useRef();
 
+    Modal.setAppElement('#root');
 
     const test = e => {
         e.preventDefault();
@@ -33,12 +36,11 @@ export default function Post({ post }) {
                 setLoading(false);
                 setEdit(!edit);
             })
-            .catch(err => {
+            .catch(() => {
                 alert('Erro ao editar');
                 setLoading(false);
             })
     }
-
     useEffect(() => {
         if(edit){
             txtEdit.current.value = "";
@@ -46,12 +48,29 @@ export default function Post({ post }) {
             txtEdit.current.value = text;
         }
     }, [edit]);
-    
-    
+
+        
     const goToHashtag = hashtagValue => {
         setSelectedHashtag(hashtagValue.split('#')[1]);
-        history.push(`/hashtag/${hashtagValue.split('#')[1]}`)
+        history.push(`/hashtag/${hashtagValue.split('#')[1]}`);
     }
+
+
+    const deletePost = () => {
+        if (loading) return;
+        setLoading(true);
+
+        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts/${post.id}`, userData.config)
+            .then(() => {
+                setLoading(false);
+                setReloadTL(!reloadTL);
+            })
+            .catch(() => {
+                setLoading(false);
+                alert('Não foi possível excluir o post');
+            })
+    }
+    
     return (
         <Container>
             <div>
@@ -69,13 +88,41 @@ export default function Post({ post }) {
                         </Link>
                         <div>
                             {userData.username === post.user.username && <TiPencil size='15px' color='white' onClick={() => setEdit(!edit)} />}
-                            {userData.username === post.user.username && <FaTrash size='15px' color='white' onClick={() => alert('teste')} />}
+                            {
+                                userData.username === post.user.username && 
+                                    <FaTrash 
+                                        size='15px'
+                                        color='white'
+                                        onClick={() => setShowingModal(true)}
+                                    />
+                            }
                         </div>
                     </div>
+
                     {edit
                         ? <form onSubmit={test}><input defaultValue={text} ref={txtEdit} disabled={loading} onChange={e => setText(e.target.value)} /></form> 
                         : <p className="lightgray-font big"><ReactHashtag onHashtagClick={goToHashtag}>{text}</ReactHashtag></p>
-                    }
+                    } 
+                                        
+                    <Modal style={ModalStyle} isOpen={showingModal}>
+                        <ModalContainer>
+                            {loading ? <div><img src='/images/loading.svg' /></div> : <span>Tem certeza que deseja excluir a publicação?</span>}
+                            <ModalButtons loading={loading}>
+                                <button onClick={() => setShowingModal(false)}>
+                                    Não, voltar
+                                </button>
+
+                                <button onClick={deletePost}>
+                                    Sim, excluir
+                                </button>
+                            </ModalButtons>
+                        </ModalContainer>
+                    </Modal>
+
+                    <p className="lightgray-font big">
+                        <ReactHashtag onHashtagClick={goToHashtag}>{post.text}</ReactHashtag>
+                    </p>
+
                 </div>
 
                 <LinkContainer onClick={() => window.open(`${post.link}`, '_blank')}>
@@ -188,3 +235,68 @@ const LinkContainer = styled.div`
         justify-content: space-between;
     }
 `;
+
+const ModalContainer = styled.div`
+    background-color: #333333;
+    padding: 30px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 597px;
+    height: 262px;
+    font-family: 'Lato', 'sans-serif';
+    border-radius: 50px;
+
+    div {
+        margin: 0 auto;
+
+        img { width: 35px; }
+    }
+
+    span {
+        font-size: 30px;
+        color: white;
+        margin-bottom: 18px;
+        text-align: center;
+    }
+`;
+
+const ModalButtons = styled.div`
+    display: flex;
+    justify-content: center;
+
+    button:first-child {
+        background-color: ${({ loading }) => loading ? 'lightgray' : 'white'};
+        color: ${({ loading }) => loading ? 'white' : '#1877F2'};
+        padding: 8px 12px;
+        margin-right: 20px;
+        font-size: 17px;
+        border-radius: 5px;
+    }
+
+    button:last-child {
+        background-color: ${({ loading }) => loading ? 'lightgray' : '#1877F2'};
+        color: white;
+        padding: 5px 10px;
+        margin-left: 20px;
+        font-size: 17px;
+        border-radius: 5px;
+    }
+`;
+
+const ModalStyle = {
+    overlay: {
+        'width': '100vw',
+        'height': '100vh',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center'
+    },
+    content: {
+        'background': 'none',
+        'border': 'none',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center'
+    }
+}

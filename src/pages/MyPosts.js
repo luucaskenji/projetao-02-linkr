@@ -10,7 +10,7 @@ import { PagesContext } from '../contexts/PagesContext';
 export default function MyPosts(){
     const [loading, setLoading] = useState(true);
     const { userData } = useContext(UserDataContext);
-    const { setPosts } = useContext(PagesContext);
+    const { setPosts, reloadTL } = useContext(PagesContext);
 
     useEffect(() => {
         axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/${userData.myId}/posts?offset=0&limit=5`, userData.config)
@@ -21,7 +21,7 @@ export default function MyPosts(){
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
-    }, []);
+    }, [reloadTL]);
         
     return (
         <>
