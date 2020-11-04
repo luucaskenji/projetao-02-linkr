@@ -27,6 +27,7 @@ export default function Post({ post }) {
 
     const deletePost = () => {
         if (loading) return;
+        setLoading(true);
 
         axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts/${post.id}`, userData.config)
             .then(() => {
@@ -67,7 +68,7 @@ export default function Post({ post }) {
 
                     <Modal style={ModalStyle} isOpen={showingModal}>
                         <ModalContainer>
-                            {loading ? <img src='/images/loading.svg' /> : <ModalSpan>Tem certeza que deseja excluir a publicação?</ModalSpan>}
+                            {loading ? <div><img src='/images/loading.svg' /></div> : <span>Tem certeza que deseja excluir a publicação?</span>}
                             <ModalButtons loading={loading}>
                                 <button onClick={() => setShowingModal(false)}>
                                     Não, voltar
@@ -192,14 +193,18 @@ const ModalContainer = styled.div`
     font-family: 'Lato', 'sans-serif';
     border-radius: 50px;
 
-    img { width: 25px; }
-`;
+    div {
+        margin: 0 auto;
 
-const ModalSpan = styled.span`
-    font-size: 30px;
-    color: white;
-    margin-bottom: 18px;
-    text-align: center;
+        img { width: 35px; }
+    }
+
+    span {
+        font-size: 30px;
+        color: white;
+        margin-bottom: 18px;
+        text-align: center;
+    }
 `;
 
 const ModalButtons = styled.div`
@@ -208,7 +213,7 @@ const ModalButtons = styled.div`
 
     button:first-child {
         background-color: ${({ loading }) => loading ? 'lightgray' : 'white'};
-        color: #1877F2;
+        color: ${({ loading }) => loading ? 'white' : '#1877F2'};
         padding: 8px 12px;
         margin-right: 20px;
         font-size: 17px;
