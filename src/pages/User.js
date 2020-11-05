@@ -37,7 +37,7 @@ export default function User(){
                 userIsFollowing = following.usernames.includes(selectedUser.username);
             })
             .catch(() => alert('Não foi possível coletar usuários que você segue'));
-    }, []);
+    }, [selectedUser]);
         
     return (
         <>

@@ -1,19 +1,53 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { DebounceInput } from 'react-debounce-input';
 import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
+import axios from 'axios';
 
 import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
+
+import UsersSearched from '../components/UsersSearched';
+
+import { FaSearch } from 'react-icons/fa';
 
 export default function Header () {
     const { userData, setUserData } = useContext(UserDataContext);
     const { goToMyPosts } = useContext(PagesContext);
     const [isVisible, setIsVisible] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [searchBox, setSearchBox] = useState(false);
+    const [usersList, setUsersList] = useState([]);
 
+    useEffect(() => {    
+        searchText && axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/search?username=${searchText}`, userData.config)
+            .then(r => {
+                console.log(r.data.users)
+                setUsersList(r.data.users)                
+            })
+            .catch(() => {
+                alert('Houve uma falha ao pesquisar usuarios')
+            });
+    }, [searchText]);
+    
+    console.log(searchText)
     return (
         <HeaderStyle>
             <span>linkr</span>
+            <SearchContainer>
+                <DebounceInput 
+                    minLength={2} 
+                    debounceTimeout={300} 
+                    forceNotifyOnBlur={false} 
+                    onChange={e => setSearchText(e.target.value)} 
+                    value={searchText} 
+                    placeholder='Search for people and friends' 
+                    onFocus={() => setSearchBox(true)} 
+                    onBlur={() => setSearchBox(false)} 
+                />
+                { searchText && <ul>{usersList.map(u => <UsersSearched key={u.id} user={u}/>)}</ul> }
+            </SearchContainer>
             <div>
                 <IconContainer isVisible={isVisible} onClick={() => setIsVisible(!isVisible)}>
                     <IoIosArrowDown size='25px' />
@@ -40,6 +74,33 @@ export default function Header () {
         </HeaderStyle>
     );
 }
+const SearchContainer = styled.div`
+    font-family: 'Lato', sans-serif;
+    flex-direction: column;
+    width: 30vw;
+    background: #E7E7E7;
+    border-radius: 8px;
+    font-size: 19px;
+    height: 45px;
+    color: #515151;
+
+    input{
+        height: 45px;
+        width: 100%;
+        border-radius: 8px;
+        padding: 5px 10px;
+        font-family: 'Lato', sans-serif;
+        font-size: 19px;
+        outline: none;
+        border: none;
+    }
+    ul, p{
+        background: #E7E7E7;
+        width: 100%;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+`;
 
 const HeaderStyle = styled.header`
     width: 100%;
@@ -58,10 +119,13 @@ const HeaderStyle = styled.header`
     box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.8);
 
     & > div { 
-        height: 100%; 
+        
         display: flex;
         align-items: center;
+    }
 
+    & > div:last-child { 
+        height: 100%; 
         img {
             height: 100%;
             width: auto;
