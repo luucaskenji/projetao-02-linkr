@@ -11,7 +11,14 @@ export default function UserDataProvider({ children }) {
                 'user-token': data.token
             }
         };
-        setUserData({ config, avatar: data.user.avatar, username: data.user.username, myId: data.user.id });
+        setUserData(
+            { 
+                config, 
+                avatar: data.user.avatar, 
+                username: data.user.username, 
+                myId: data.user.id
+            }
+        );
     }
     
     return (

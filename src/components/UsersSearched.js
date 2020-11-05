@@ -5,18 +5,24 @@ import { Link } from 'react-router-dom';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function UsersSearched({user}){
-    const { setSelectedUser } = useContext(PagesContext);
+    const { setSelectedUser, setSearchText, setSearchBox} = useContext(PagesContext);
+
+    const changeUserPage = () => {
+        setSelectedUser(user);
+        setSearchBox(false);
+        setSearchText('');
+    }
     
     return(
         <Item>
             <Link to={`/user/${user.id}`}>
-                <img onClick={() => setSelectedUser(user)} src={user.avatar} />
+                <img onClick={changeUserPage} src={user.avatar} />
             </Link>
 
             <Link to={`/user/${user.id}`}>
-                <p onClick={() => setSelectedUser(user)}>{user.username}</p>
+                <p onClick={changeUserPage}>{user.username}</p>
             </Link>
-            
+
             {user.isFollowingLoggedUser && <span>• following</span>}
         </Item>
     ); 
