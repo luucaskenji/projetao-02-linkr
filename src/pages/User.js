@@ -9,35 +9,57 @@ import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function User(){
-    const { selectedUser, setPosts, following, setFollowing } = useContext(PagesContext);
-    const [loading, setLoading] = useState(true);
+    const { selectedUser, setPosts } = useContext(PagesContext);
     const { userData } = useContext(UserDataContext);
-    let userIsFollowing;
+    const [loadingPosts, setLoadingPosts] = useState(true);
+    const [loadingFollow, setLoadingFollow] = useState(false);
+    const [following, setFollowing] = useState([]);
+    
+    let userIsFollowing = following.includes(selectedUser.username);
 
     useEffect(() => {
         axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/${selectedUser.id}/posts?offset=0&limit=5`, userData.config)
             .then(r => {      
-                setLoading(false);
+                setLoadingPosts(false);
                 setPosts(r.data.posts);                
             })
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
-        
+    }, []);
+
+    useEffect(() => {
         axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/follows`, userData.config)
             .then(r => {
-                let usernames = [];
+                const usernames = [];
 
-                r.data.users.forEach(u => {
-                    usernames.push(u.username);
-                });
+                r.data.users.forEach(u => usernames.push(u.username));
 
-                setFollowing({usernames, data: [...r.data.users]});
-                
-                userIsFollowing = following.usernames.includes(selectedUser.username);
+                setFollowing([...usernames]);
             })
             .catch(() => alert('Não foi possível coletar usuários que você segue'));
     }, []);
+
+    const followUnfollow = () => {
+        if (loadingFollow) return;
+        setLoadingFollow(true);
+
+        if (userIsFollowing) {
+            axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/${selectedUser.id}/unfollow`, null, userData.config)
+                .then(() => {
+                    const newFollowingUsers = following.filter(username => username !== selectedUser.username);
+                    setFollowing(newFollowingUsers);
+                    setLoadingFollow(false);
+                });
+        }
+        else {
+            axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/${selectedUser.id}/follow`, null, userData.config)
+                .then(() => {
+                    setFollowing([...following, selectedUser.username]);
+                    setLoadingFollow(false);
+                });
+        }
+    }
         
     return (
         <>
@@ -48,17 +70,13 @@ export default function User(){
                     <div>
                         <h2>{selectedUser.username}'s posts</h2>
                         {userData.username !== selectedUser.username && (
-                            <FollowButton userIsFollowing={userIsFollowing} >
-                                {
-                                    userIsFollowing
-                                        ? "Seguindo"
-                                        : "Seguir"
-                                }
+                            <FollowButton userIsFollowing={userIsFollowing} onClick={followUnfollow} >
+                                { userIsFollowing ? "Following" : "Follow" }
                             </FollowButton>
                         )}
                     </div>
 
-                    <PostsTrendings loading={loading} />
+                    <PostsTrendings loading={loadingPosts} />
                     
                 </main>
             </Container>
