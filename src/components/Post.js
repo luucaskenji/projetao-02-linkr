@@ -26,7 +26,7 @@ export default function Post({ post }) {
 
     Modal.setAppElement('#root');
 
-    const test = e => {
+    const editPost = e => {
         e.preventDefault();
         if (loading) return;
         setLoading(true);
@@ -82,12 +82,12 @@ export default function Post({ post }) {
 
             <MessageContainer>
                 <div>
-                    <div>
+                    <HeaderPost>
                         <Link to={`/user/${post.user.id}`}>
                             <p className='username' onClick={() => setSelectedUser(post.user)}>{post.user.username}</p>
                         </Link>
                         <div>
-                            {userData.username === post.user.username && <TiPencil size='15px' color='white' onClick={() => setEdit(!edit)} />}
+                            {userData.username === post.user.username && <TiPencil size='18px' color='white' onClick={() => setEdit(!edit)} />}
                             {
                                 userData.username === post.user.username && 
                                     <FaTrash 
@@ -97,13 +97,13 @@ export default function Post({ post }) {
                                     />
                             }
                         </div>
-                    </div>
+                    </HeaderPost>
 
                     {edit
-                        ? <form onSubmit={test}><input defaultValue={text} ref={txtEdit} disabled={loading} onChange={e => setText(e.target.value)} /></form> 
+                        ? <form onSubmit={editPost}><input type="textarea" value={text} ref={txtEdit} disabled={loading} onChange={e => setText(e.target.value)} /></form> 
                         : <p className="lightgray-font big"><ReactHashtag onHashtagClick={goToHashtag}>{text}</ReactHashtag></p>
                     } 
-                                        
+
                     <Modal style={ModalStyle} isOpen={showingModal}>
                         <ModalContainer>
                             {loading ? <div><img src='/images/loading.svg' /></div> : <span>Tem certeza que deseja excluir a publicação?</span>}
@@ -118,11 +118,6 @@ export default function Post({ post }) {
                             </ModalButtons>
                         </ModalContainer>
                     </Modal>
-
-                    <p className="lightgray-font big">
-                        <ReactHashtag onHashtagClick={goToHashtag}>{post.text}</ReactHashtag>
-                    </p>
-
                 </div>
 
                 <LinkContainer onClick={() => window.open(`${post.link}`, '_blank')}>
@@ -139,7 +134,14 @@ export default function Post({ post }) {
     );
 }
 
+const HeaderPost = styled.div`
+    margin-bottom: 14px;
 
+    div *{
+        cursor: pointer;
+        margin-left: 12px;
+    }
+`;
 
 const Container = styled.li`
     padding: 15px;
@@ -176,8 +178,6 @@ const MessageContainer = styled.div`
             display: flex;
             justify-content: space-between;
         }
-
-        p { margin-bottom: 14px; }
     }
 
     .username {
@@ -211,6 +211,7 @@ const LinkContainer = styled.div`
     width: 100%;
     height: 155px;
     cursor: pointer;
+    margin-top: 14px;
     
     p {
         display: -webkit-box;

@@ -25,7 +25,7 @@ export default function User(){
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
-    }, []);
+    }, [selectedUser]);
 
     const followUnfollow = () => {
         if (loadingFollow) return;

@@ -7,6 +7,8 @@ export default function PagesProvider({ children }) {
     const [selectedHashtag, setSelectedHashtag] = useState([]);
     const [selectedUser, setSelectedUser] = useState([]);
     const [reloadTL, setReloadTL] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [searchBox, setSearchBox] = useState(false);
 
     const pagesData = {
         posts, 
@@ -16,7 +18,11 @@ export default function PagesProvider({ children }) {
         selectedUser, 
         setSelectedUser,
         reloadTL,
-        setReloadTL
+        setReloadTL,
+        searchText, 
+        setSearchText,
+        searchBox, 
+        setSearchBox
     }
 
     return (

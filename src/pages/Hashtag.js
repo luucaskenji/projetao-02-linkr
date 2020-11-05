@@ -8,7 +8,7 @@ import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function Hashtag(){
-    const { selectedHashtag, setPosts } = useContext(PagesContext);
+    const { selectedHashtag, setPosts, setReloadTL } = useContext(PagesContext);
     const [loading, setLoading] = useState(true);
     const { userData } = useContext(UserDataContext);
 
@@ -21,7 +21,7 @@ export default function Hashtag(){
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
-    }, [selectedHashtag]);
+    }, [selectedHashtag, setReloadTL]);
         
     return (
         <>
