@@ -10,7 +10,7 @@ import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
 export default function PostsTrendings({ loading }) {
-    const { userData } = useContext(UserDataContext);
+    const { userData, following } = useContext(UserDataContext);
     const { posts } = useContext(PagesContext);
     const currentRoute = useLocation();
 
@@ -40,7 +40,11 @@ export default function PostsTrendings({ loading }) {
                 {currentRoute.pathname === '/timeline' && <ToPost userData={userData}/>}
                 <PostContainer>
                     <ul>
-                        {checkLoading()}
+                        {
+                            currentRoute.pathname === '/timeline' && following.length === 0
+                                ? 'Parece que você não segue ninguém ainda. Procure por perfis na busca!'
+                                : checkLoading()
+                        }
                     </ul>
                 </PostContainer>
             </div>

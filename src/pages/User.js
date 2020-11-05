@@ -10,12 +10,11 @@ import { PagesContext } from '../contexts/PagesContext';
 
 export default function User(){
     const { selectedUser, setPosts } = useContext(PagesContext);
-    const { userData } = useContext(UserDataContext);
+    const { userData, following, setFollowing } = useContext(UserDataContext);
     const [loadingPosts, setLoadingPosts] = useState(true);
     const [loadingFollow, setLoadingFollow] = useState(false);
-    const [following, setFollowing] = useState([]);
     
-    let userIsFollowing = following.includes(selectedUser.username);
+    const userIsFollowing = following.includes(selectedUser.username);
 
     useEffect(() => {
         axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/${selectedUser.id}/posts?offset=0&limit=5`, userData.config)
@@ -26,18 +25,6 @@ export default function User(){
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
-    }, []);
-
-    useEffect(() => {
-        axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/follows`, userData.config)
-            .then(r => {
-                const usernames = [];
-
-                r.data.users.forEach(u => usernames.push(u.username));
-
-                setFollowing([...usernames]);
-            })
-            .catch(() => alert('Não foi possível coletar usuários que você segue'));
     }, []);
 
     const followUnfollow = () => {

@@ -13,7 +13,7 @@ export default function Timeline() {
     const [loading, setLoading] = useState(true);
     
     useEffect(() => {    
-        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts?offset=0&limit=5', userData.config)
+        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/following/posts', userData.config)
             .then(r => {      
                 setLoading(false);
                 setPosts(r.data.posts);                
