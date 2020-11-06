@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Container } from '../styles/PostsElements';
 import Header from '../components/Header';
 import PostsTrendings from '../components/PostsTrendings';
+import Search from '../components/Search';
 import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
@@ -29,6 +30,7 @@ export default function Hashtag(){
     
             <Container>
                 <main>
+                    <Search />
                     <div>
                         <h2># {selectedHashtag}</h2>
                     </div>
