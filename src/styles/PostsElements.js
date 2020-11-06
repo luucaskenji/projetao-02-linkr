@@ -18,14 +18,15 @@ export const Container = styled.div`
             * {
                 font-size: 17px;
             }
-
         }
+
         & > div:nth-child(2) {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 10px 0px 30px 15px;    
+            margin: 10px 0px 30px 15px;
         }
+        
         & > div:last-child {
             display: flex;
             justify-content:space-between;
