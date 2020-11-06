@@ -63,6 +63,7 @@ export default function Post({ post }) {
         axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts/${post.id}`, userData.config)
             .then(() => {
                 setLoading(false);
+                setShowingModal(false);
                 setReloadTL(!reloadTL);
             })
             .catch(() => {

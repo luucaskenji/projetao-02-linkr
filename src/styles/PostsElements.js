@@ -16,7 +16,9 @@ export const Container = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;    
+            margin-bottom: 30px;
+
+            @media (max-width: 800px) { padding: 0 15px; }
         }
 
         & > div:last-child {
@@ -37,6 +39,6 @@ export const Container = styled.div`
         color: white;
         letter-spacing: 2px;
         
-        @media (max-width: 800px) { font-size: 36px; margin-left: 15px; }
+        @media (max-width: 800px) { font-size: 36px; }
     }
 `;

@@ -11,8 +11,8 @@ export default function Timeline() {
     const { userData } = useContext(UserDataContext);
     const { setPosts, reloadTL } = useContext(PagesContext);
     const [loading, setLoading] = useState(true);
-    
-    useEffect(() => {    
+
+    const refreshTimeline = () => {
         axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/following/posts', userData.config)
             .then(r => {      
                 setLoading(false);
@@ -21,6 +21,14 @@ export default function Timeline() {
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
             });
+    }
+    
+    useEffect(() => {
+        refreshTimeline();
+            
+        const requestsInterval = setInterval(() => refreshTimeline() , 15000);
+
+        return () => clearInterval(requestsInterval);        
     }, [reloadTL]);
 
     return (
