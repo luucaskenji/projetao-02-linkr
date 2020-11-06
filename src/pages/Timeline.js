@@ -12,13 +12,8 @@ export default function Timeline() {
     const { userData } = useContext(UserDataContext);
     const { setPosts, reloadTL } = useContext(PagesContext);
     const [loading, setLoading] = useState(true);
-<<<<<<< HEAD
     
-    useEffect(() => {   
-=======
-
     const refreshTimeline = () => {
->>>>>>> 9f355f1c8f65f679aea48272345a55f627e6319a
         axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/following/posts', userData.config)
             .then(r => {      
                 setLoading(false);
