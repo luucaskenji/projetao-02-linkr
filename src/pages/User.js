@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Container } from '../styles/PostsElements';
 import Header from '../components/Header';
 import PostsTrendings from '../components/PostsTrendings';
+import Search from '../components/Search';
 import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
@@ -54,6 +55,7 @@ export default function User(){
     
             <Container>
                 <main>
+                    <Search />
                     <div>
                         <h2>{selectedUser.username}'s posts</h2>
                         {userData.username !== selectedUser.username && (

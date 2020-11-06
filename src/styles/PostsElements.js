@@ -8,17 +8,24 @@ export const Container = styled.div`
     align-items: center;
 
     main { 
-        width: 75vw;
-
-        @media (max-width: 800px) { width: 100%; }
+        width: 75vw;   
 
         & > div:first-child {
+            width: 100%;
+            display: none;
+            padding: 0px 10px;
+            background-color: #333333;
+            * {
+                font-size: 17px;
+            }
+
+        }
+        & > div:nth-child(2) {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;    
+            margin: 10px 0px 30px 15px;    
         }
-
         & > div:last-child {
             display: flex;
             justify-content:space-between;
@@ -29,6 +36,14 @@ export const Container = styled.div`
                 @media (max-width: 800px) { width: 100%; }
             }
         }
+
+        @media (max-width: 800px) { 
+            width: 100%; 
+
+            & > div:first-child {
+                display: flex;
+            }
+        }
     }
 
     h2 {
@@ -37,6 +52,8 @@ export const Container = styled.div`
         color: white;
         letter-spacing: 2px;
         
-        @media (max-width: 800px) { font-size: 36px; margin-left: 15px; }
+        @media (max-width: 800px) { font-size: 36px; }
     }
+
+    @media (max-width: 800px) {padding-top: 90px;}
 `;
