@@ -6,7 +6,8 @@ import Modal from 'react-modal';
 import { FaTrash } from 'react-icons/fa';
 import { TiPencil } from 'react-icons/ti';
 
-import Likes from '../components/Likes';
+import Likes from './Likes';
+import YTPlayer from './YTPlayer';
 
 import { PagesContext } from '../contexts/PagesContext';
 import { UserDataContext } from '../contexts/UserData';
@@ -71,7 +72,7 @@ export default function Post({ post }) {
                 alert('Não foi possível excluir o post');
             })
     }
-    
+
     return (
         <Container>
             <div>
@@ -120,16 +121,22 @@ export default function Post({ post }) {
                         </ModalContainer>
                     </Modal>
                 </div>
+                
+                {
+                    post.link.includes('youtube.com') 
+                        ? <YTPlayer link={post.link} />
+                        : (
+                            <LinkContainer onClick={() => window.open(`${post.link}`, '_blank')}>
+                                <div>
+                                    <p className='lightgray-font big'>{post.linkTitle}</p>
+                                    <p className='gray-font small'>{post.linkDescription}</p>
+                                    <p className='lightgray-font small'>{post.link}</p>
+                                </div>
 
-                <LinkContainer onClick={() => window.open(`${post.link}`, '_blank')}>
-                    <div>
-                        <p className='lightgray-font big'>{post.linkTitle}</p>
-                        <p className='gray-font small'>{post.linkDescription}</p>
-                        <p className='lightgray-font small'>{post.link}</p>
-                    </div>
-
-                    <img src={post.linkImage} />
-                </LinkContainer>
+                                <img src={post.linkImage} />
+                            </LinkContainer>
+                        )
+                }
             </MessageContainer>
         </Container>
     );
