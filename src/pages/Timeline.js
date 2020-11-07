@@ -12,7 +12,7 @@ export default function Timeline() {
     const { userData } = useContext(UserDataContext);
     const { setPosts, reloadTL } = useContext(PagesContext);
     const [loading, setLoading] = useState(true);
-
+    
     const refreshTimeline = () => {
         axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/following/posts', userData.config)
             .then(r => {      
@@ -41,7 +41,7 @@ export default function Timeline() {
                     <div>
                         <Search />
                     </div>
-                    
+
                     <div>
                         <h2>timeline</h2>
                     </div>

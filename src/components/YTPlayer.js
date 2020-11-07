@@ -9,12 +9,9 @@ export default function YTPlayer({ link }) {
     return (
         <Video 
             width="100%" 
-            height="auto" 
+            height="350px" 
             src={videoLink} 
-            frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen
-            onPause={() => console.log('pausou')}
         >
         </Video>
     );
