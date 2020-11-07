@@ -6,12 +6,11 @@ import Modal from 'react-modal';
 import { FaTrash } from 'react-icons/fa';
 import { TiPencil } from 'react-icons/ti';
 
+import { HeaderPost, Container, MessageContainer, LinkContainer, ModalContainer, ModalButtons, ModalStyle } from '../styles/PostStyle';
 import Likes from './Likes';
 import YTPlayer from './YTPlayer';
-
 import { PagesContext } from '../contexts/PagesContext';
 import { UserDataContext } from '../contexts/UserData';
-import { HeaderPost, Container, MessageContainer, LinkContainer, ModalContainer, ModalButtons, ModalStyle } from '../styles/PostStyle';
 
 export default function Post({ post }) {
     const { setSelectedUser, setSelectedHashtag, reloadTL, setReloadTL } = useContext(PagesContext);
@@ -27,8 +26,25 @@ export default function Post({ post }) {
 
     Modal.setAppElement('#root');
 
-    const editPost = e => {
-        e.preventDefault();
+    const goToHashtag = hashtagValue => {
+        setSelectedHashtag(hashtagValue.split('#')[1]);
+        history.push(`/hashtag/${hashtagValue.split('#')[1]}`);
+    }
+
+    const startEndEdit = () => {
+        setText(post.text);
+        setEdit(!edit);
+    }
+
+    useEffect(() => {
+        if(edit){
+            txtEdit.current.value = "";
+            txtEdit.current.focus();
+            txtEdit.current.value = text;
+        }
+    }, [edit]);
+
+    const editPostRequest = () => {
         if (loading) return;
         setLoading(true);
 
@@ -42,21 +58,7 @@ export default function Post({ post }) {
                 setLoading(false);
             })
     }
-    useEffect(() => {
-        if(edit){
-            txtEdit.current.value = "";
-            txtEdit.current.focus();
-            txtEdit.current.value = text;
-        }
-    }, [edit]);
-
-        
-    const goToHashtag = hashtagValue => {
-        setSelectedHashtag(hashtagValue.split('#')[1]);
-        history.push(`/hashtag/${hashtagValue.split('#')[1]}`);
-    }
-
-
+    
     const deletePost = () => {
         if (loading) return;
         setLoading(true);
@@ -88,8 +90,15 @@ export default function Post({ post }) {
                         <Link to={`/user/${post.user.id}`}>
                             <p className='username' onClick={() => setSelectedUser(post.user)}>{post.user.username}</p>
                         </Link>
+                        
                         <div>
-                            {userData.username === post.user.username && <TiPencil size='18px' color='white' onClick={() => setEdit(!edit)} />}
+                            {userData.username === post.user.username 
+                                && <TiPencil 
+                                    size='18px' 
+                                    color='white' 
+                                    onClick={() => startEndEdit()} 
+                                />
+                            }
                             {
                                 userData.username === post.user.username && 
                                     <FaTrash 
@@ -102,7 +111,17 @@ export default function Post({ post }) {
                     </HeaderPost>
 
                     {edit
-                        ? <form onSubmit={editPost}><input type="textarea" value={text} ref={txtEdit} disabled={loading} onChange={e => setText(e.target.value)} /></form> 
+                        ? <textarea 
+                            defaultValue={text} 
+                            ref={txtEdit} 
+                            disabled={loading} 
+                            onChange={e => setText(e.target.value)} 
+                            onKeyDown={e => {
+                                    e.key === "Enter" && !e.shiftKey && editPostRequest();
+                                    e.key === "Escape" && startEndEdit();
+                                } 
+                            } 
+                        />
                         : <p className="lightgray-font big"><ReactHashtag onHashtagClick={goToHashtag}>{text}</ReactHashtag></p>
                     } 
 

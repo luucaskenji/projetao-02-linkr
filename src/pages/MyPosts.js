@@ -17,7 +17,7 @@ export default function MyPosts(){
         axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/users/${userData.myId}/posts?offset=0&limit=5`, userData.config)
             .then(r => {      
                 setLoading(false);
-                setPosts(r.data.posts);                
+                setPosts(r.data.posts);         
             })
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')

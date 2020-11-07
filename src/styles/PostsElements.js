@@ -8,23 +8,21 @@ export const Container = styled.div`
     align-items: center;
 
     main { 
-        width: 75vw;   
+        width: 75vw;
 
         & > div:first-child {
+            display: none; 
             width: 100%;
-            display: none;
-            padding: 0px 10px;
-            background-color: #333333;
-            * {
-                font-size: 17px;
-            }
+            padding: 0 10px;          
         }
 
         & > div:nth-child(2) {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 10px 0px 30px 15px;
+            margin-bottom: 30px;
+            width: 100%;
+            @media (max-width: 800px) { padding: 0 15px; }
         }
         
         & > div:last-child {
@@ -43,6 +41,11 @@ export const Container = styled.div`
 
             & > div:first-child {
                 display: flex;
+                justify-content: center;
+
+                div{
+                    display: flex;
+                }
             }
         }
     }

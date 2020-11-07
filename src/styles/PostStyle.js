@@ -56,7 +56,7 @@ export const MessageContainer = styled.div`
     .big { font-size: 16px; }
     .small { font-size: 12px; }
 
-    input {
+    textarea {
         background-color: #EFEFEF;
         padding: 8px;
         width: 100%;
@@ -88,14 +88,14 @@ export const LinkContainer = styled.div`
     }
 
     img {
-        width: 50%;
+        width: 35%;
         object-fit: cover;
         margin-left: 6px;
         border-radius: 0 16px 16px 0;
     }
     
     div {
-        width: 50%;
+        width: 65%;
         padding: 10px;
         display: flex;
         flex-direction: column;

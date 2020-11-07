@@ -12,17 +12,12 @@ export default function Timeline() {
     const { userData } = useContext(UserDataContext);
     const { setPosts, reloadTL } = useContext(PagesContext);
     const [loading, setLoading] = useState(true);
-<<<<<<< HEAD
-    
-    useEffect(() => {   
-=======
 
     const refreshTimeline = () => {
->>>>>>> 9f355f1c8f65f679aea48272345a55f627e6319a
         axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/following/posts', userData.config)
             .then(r => {      
                 setLoading(false);
-                setPosts(r.data.posts);       
+                setPosts(r.data.posts);
             })
             .catch(() => {
                 alert('Houve uma falha ao obter os posts, por favor atualize a página')
@@ -40,16 +35,18 @@ export default function Timeline() {
     return (
         <>
             <Header />
-    
-            <Container>
+
+            <Container>                
                 <main>
-                    <Search />
+                    <div>
+                        <Search />
+                    </div>
+                    
                     <div>
                         <h2>timeline</h2>
                     </div>
                     
-                    <PostsTrendings loading={loading} />
-                    
+                    <PostsTrendings loading={loading} />                    
                 </main>
             </Container>
         </>

@@ -2,13 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import styled from 'styled-components';
 import axios from 'axios';
-
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
-
-import UsersSearched from '../components/UsersSearched';
+import UsersSearched from './UsersSearched';
 
 export default function Search(){
     const { userData } = useContext(UserDataContext);
@@ -41,7 +39,7 @@ export default function Search(){
         <SearchContainer>
             <div>
                 <DebounceInput 
-                    minLength={2} 
+                    minLength={3} 
                     debounceTimeout={300} 
                     forceNotifyOnBlur={false} 
                     onChange={e => setSearchText(e.target.value)} 
@@ -95,5 +93,20 @@ const SearchContainer = styled.div`
     ul:last-child{
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
+    }
+    @media (max-width: 800px) {
+        display: none;
+        width: 100%;
+        position: relative;
+        height: 45px;
+        margin-bottom: 15px;
+
+        * {
+            font-size: 17px;
+        }
+        ul{
+            position: absolute;
+            top: 40px;
+        }
     }
 `;

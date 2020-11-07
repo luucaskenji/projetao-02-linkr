@@ -6,7 +6,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { UserDataContext } from '../contexts/UserData';
 import { PagesContext } from '../contexts/PagesContext';
 
-import Search from '../components/Search';
+import Search from './Search';
 
 export default function Header () {
     const { userData, setUserData } = useContext(UserDataContext);
@@ -59,6 +59,7 @@ const HeaderStyle = styled.header`
     color: white;
     font-family: 'Passion One', cursive;
     box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.8);
+    z-index: 1;
 
     & > div:last-child { 
         display: flex;

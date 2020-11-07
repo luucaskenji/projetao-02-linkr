@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { VscLocation } from 'react-icons/vsc';
 
 import { PagesContext } from '../contexts/PagesContext';
 
@@ -8,8 +9,17 @@ export default function ToPost({ userData }) {
     const { reloadTL, setReloadTL } = useContext(PagesContext);
     const [link, setLink] = useState('');
     const [text, setText] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);    
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    const [location, setLocation] = useState(false);    
 
+    const geolocation = {
+        latitude ,
+        longitude
+    };
+    
+    
     const postOnServer = e => {
         e.preventDefault();
 
@@ -21,7 +31,7 @@ export default function ToPost({ userData }) {
         }
         setLoading(true);
         
-        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts', { link, text }, userData.config)
+        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/linkr/posts', { link, text, geolocation }, userData.config)
             .then(() => {
                 setLink('');
                 setText('');
@@ -33,6 +43,18 @@ export default function ToPost({ userData }) {
                 setLoading(false);
             })
     }
+    const getLocation = () => {
+        if( !('geolocation' in navigator) ) {
+            alert("Navegador não tem suporte API Geolocation");
+        } else {
+            setLocation(!location);
+            navigator.geolocation.getCurrentPosition(i => {
+                setLatitude(i.coords.latitude)
+                setLongitude(i.coords.longitude)
+            })
+        }
+    }
+
     return (
         <Container>
             <div><img src={userData.avatar} /></div>
@@ -51,12 +73,32 @@ export default function ToPost({ userData }) {
                         value={text} 
                         disabled={loading}
                     />
-                    <button type='submit'>{loading ? 'Publicando...' : 'Publicar'}</button>
+                    <ButtonsContainer location={location}>                        
+                        <div onClick={() => getLocation()}>
+                            <VscLocation size='18px' />
+                            <span>{location ? 'Localização ativada' : 'Localização desativada'}</span>
+                        </div>
+                        <button type='submit'>{loading ? 'Publicando...' : 'Publicar'}</button>
+                    </ButtonsContainer>
                 </form>
             </div>
+            
         </Container>
     );
 }
+
+const ButtonsContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    div{
+        display: flex;
+        align-items: center;
+        color: ${props => props.location ? `green` : `black`};
+    }
+`;
+
 const Container = styled.div`
     width: 100%;
     background-color: white;
@@ -128,3 +170,4 @@ const Container = styled.div`
         @media (max-width: 800px) { align-self: center; }
     }
 `;
+
